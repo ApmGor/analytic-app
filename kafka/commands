@@ -1,0 +1,7 @@
+kafka-topics.sh --bootstrap-server kafka1:9092 --topic products-analytic --delete --if-exists
+
+kafka-topics.sh --bootstrap-server kafka1:9092 --create --if-not-exists --topic products-analytic --replication-factor 3 --partitions 3
+
+kafka-topics.sh --bootstrap-server kafka1:9092 --list
+
+kafka-topics.sh --bootstrap-server kafka1:9092 --topic products-analytic --describe

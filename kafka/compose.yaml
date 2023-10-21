@@ -1,0 +1,45 @@
+services:
+  kafka1:
+    image: analytic-kafka
+    build:
+      context: .
+      dockerfile: kafka.Dockerfile
+    container_name: kafka1
+    ports:
+    - "9191:9191"
+    environment:
+      - KAFKA_CLUSTER_ID=iD17U17hSVSikQ08b5lr1A
+    volumes:
+    - ./props/node1.properties:/kafka/config/kraft/server.properties
+    - data_n1:/tmp/kafka-logs
+  kafka2:
+    image: analytic-kafka
+    build:
+      context: .
+      dockerfile: kafka.Dockerfile
+    container_name: kafka2
+    ports:
+    - "9192:9192"
+    environment:
+      - KAFKA_CLUSTER_ID=iD17U17hSVSikQ08b5lr1A
+    volumes:
+    - ./props/node2.properties:/kafka/config/kraft/server.properties
+    - data_n2:/tmp/kafka-logs
+  kafka3:
+    image: analytic-kafka
+    build:
+      context: .
+      dockerfile: kafka.Dockerfile
+    container_name: kafka3
+    ports:
+    - "9193:9193"
+    environment:
+      - KAFKA_CLUSTER_ID=iD17U17hSVSikQ08b5lr1A
+    volumes:
+    - ./props/node3.properties:/kafka/config/kraft/server.properties
+    - data_n3:/tmp/kafka-logs
+
+volumes:
+  data_n1:
+  data_n2:
+  data_n3:
