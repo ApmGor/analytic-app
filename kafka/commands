@@ -5,3 +5,5 @@ kafka-topics.sh --bootstrap-server kafka1:9092 --create --if-not-exists --topic 
 kafka-topics.sh --bootstrap-server kafka1:9092 --list
 
 kafka-topics.sh --bootstrap-server kafka1:9092 --topic products-analytic --describe
+
+kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic products-analytic --offset earliest --partition 0

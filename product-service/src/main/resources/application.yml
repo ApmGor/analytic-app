@@ -4,3 +4,9 @@ spring:
     username: "${POSTGRES_USER:product_user}"
     password: "${POSTGRES_PWD:product_pwd}"
     url: "r2dbc:postgresql://${POSTGRES_URL:localhost}:${POSTGRES_PORT:5432}"
+
+  kafka:
+    bootstrap-servers: "${KAFKA_HOST:localhost}:${KAFKA_PORT:9191}"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
