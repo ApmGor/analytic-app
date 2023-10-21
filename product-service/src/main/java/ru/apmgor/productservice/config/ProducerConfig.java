@@ -1,6 +1,7 @@
 package ru.apmgor.productservice.config;
 
 import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,9 @@ import ru.apmgor.productservice.kafka.ProductViewEventProducer;
 
 @Configuration
 public class ProducerConfig {
+
+    @Value("${app.kafka.topic.name}")
+    private String topicName;
 
     @Bean
     public SenderOptions<String, ProductViewEvent> senderOptions(final KafkaProperties properties) {
@@ -31,6 +35,6 @@ public class ProducerConfig {
     ) {
         val sink = Sinks.many().unicast().<ProductViewEvent>onBackpressureBuffer();
         val flux = sink.asFlux();
-        return new ProductViewEventProducer(template, sink, flux, "products-analytic");
+        return new ProductViewEventProducer(template, sink, flux, topicName);
     }
 }
