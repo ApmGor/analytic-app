@@ -1,0 +1,20 @@
+spring:
+  r2dbc:
+    name: "${POSTGRES_DB:analytic_db}"
+    username: "${POSTGRES_USER:analytic_user}"
+    password: "${POSTGRES_PWD:analytic_pwd}"
+    url: "r2dbc:postgresql://${POSTGRES_URL:localhost}:${POSTGRES_PORT:5433}"
+
+  kafka:
+    bootstrap-servers: "${KAFKA_HOST:localhost}:${KAFKA_PORT:9191}"
+    consumer:
+      group-id: "analytic-service-group"
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        "group.instance.id": "1"
+        "spring.json.trusted.packages": "ru.apmgor.common.event"
+
+server:
+  port: 8081

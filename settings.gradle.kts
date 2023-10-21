@@ -11,4 +11,5 @@ dependencyResolutionManagement {
 
 include("product-service")
 include("common")
+include("analytic-service")
 
