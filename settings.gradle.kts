@@ -9,3 +9,6 @@ dependencyResolutionManagement {
     repositories.mavenCentral()
 }
 
+include("product-service")
+include("common")
+
