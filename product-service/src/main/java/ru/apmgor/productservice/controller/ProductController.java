@@ -16,7 +16,7 @@ import ru.apmgor.productservice.service.ProductService;
 @RequiredArgsConstructor
 public final class ProductController {
 
-    public final ProductService service;
+    private final ProductService service;
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<ProductDto>> oneProduct(@PathVariable final Integer id) {

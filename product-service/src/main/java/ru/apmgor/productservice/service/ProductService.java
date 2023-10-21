@@ -13,7 +13,7 @@ import ru.apmgor.productservice.repository.ProductRepository;
 public final class ProductService {
 
     private final ProductRepository repository;
-    public final ProductProducer producer;
+    private final ProductProducer producer;
 
     public Mono<ProductDto> getOneProduct(final Integer id) {
         return repository.findById(id)

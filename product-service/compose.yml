@@ -1,5 +1,5 @@
 services:
-  postgres-product:
+  product_db:
     image: postgres
     environment:
       POSTGRES_USER: product_user
