@@ -1,0 +1,6 @@
+spring:
+  r2dbc:
+    name: "${POSTGRES_DB:product_db}"
+    username: "${POSTGRES_USER:product_user}"
+    password: "${POSTGRES_PWD:product_pwd}"
+    url: "r2dbc:postgresql://${POSTGRES_URL:localhost}:${POSTGRES_PORT:5432}"
