@@ -2,11 +2,11 @@ package ru.apmgor.analyticservice.repository;
 
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 import ru.apmgor.analyticservice.entity.AnalyticProduct;
 
 public interface AnalyticRepository extends ReactiveCrudRepository<AnalyticProduct, Integer> {
 
-    @Query("INSERT INTO product_views (product_id, count) VALUES ($1, $2)")
-    Mono<AnalyticProduct> insertProduct(final Integer id, final Integer count);
+    @Query("SELECT * FROM product_views ORDER BY count DESC LIMIT 3")
+    Flux<AnalyticProduct> findTop3ByCount();
 }
