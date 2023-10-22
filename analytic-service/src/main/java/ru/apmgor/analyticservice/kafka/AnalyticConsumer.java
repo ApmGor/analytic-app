@@ -45,7 +45,7 @@ public final class AnalyticConsumer {
                         .stream()
                         .map(productId -> updateAnalyticProduct(dbMap, eventsMap, productId)).toList())
                 .flatMapMany(repository::saveAll)
-                //.doOnComplete(() -> events.get(events.size() - 1).receiverOffset().acknowledge())
+                .doOnComplete(() -> events.get(events.size() - 1).receiverOffset().acknowledge())
                 .doOnError(ex -> log.error(ex.getMessage()))
                 .then();
     }
