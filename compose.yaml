@@ -1,0 +1,86 @@
+services:
+  kafka1:
+    image: analytic-kafka
+    build:
+      context: ./kafka
+      dockerfile: kafka.Dockerfile
+    container_name: kafka1
+    environment:
+      - KAFKA_CLUSTER_ID=iD17U17hSVSikQ08b5lr1A
+    volumes:
+      - ./kafka/props/node1.properties:/kafka/config/kraft/server.properties
+      - data_n1:/tmp/kafka-logs
+  kafka2:
+    image: analytic-kafka
+    build:
+      context: ./kafka
+      dockerfile: kafka.Dockerfile
+    container_name: kafka2
+    environment:
+      - KAFKA_CLUSTER_ID=iD17U17hSVSikQ08b5lr1A
+    volumes:
+      - ./kafka/props/node2.properties:/kafka/config/kraft/server.properties
+      - data_n2:/tmp/kafka-logs
+  kafka3:
+    image: analytic-kafka
+    build:
+      context: ./kafka
+      dockerfile: kafka.Dockerfile
+    container_name: kafka3
+    environment:
+      - KAFKA_CLUSTER_ID=iD17U17hSVSikQ08b5lr1A
+    volumes:
+      - ./kafka/props/node3.properties:/kafka/config/kraft/server.properties
+      - data_n3:/tmp/kafka-logs
+
+  product-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: product_user
+      POSTGRES_PASSWORD: product_pwd
+      POSTGRES_DB: product_db
+    volumes:
+      - "./product-service/init:/docker-entrypoint-initdb.d"
+  product-service:
+    image: product-service
+    build:
+      context: .
+      dockerfile: product.Dockerfile
+    depends_on:
+      - product-db
+      - kafka1
+      - kafka2
+      - kafka3
+    env_file:
+      - ./product-service/env/product.env
+    ports:
+      - "8080:8080"
+  analytic-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: analytic_user
+      POSTGRES_PASSWORD: analytic_pwd
+      POSTGRES_DB: analytic_db
+    volumes:
+      - "./analytic-service/init:/docker-entrypoint-initdb.d"
+  analytic-service:
+    image: analytic-service
+    build:
+      context: .
+      dockerfile: analytic.Dockerfile
+    depends_on:
+      - product-service
+      - analytic-db
+      - kafka1
+      - kafka2
+      - kafka3
+    env_file:
+      - ./analytic-service/env/analytic.env
+    ports:
+      - "8081:8081"
+
+
+volumes:
+  data_n1:
+  data_n2:
+  data_n3:
