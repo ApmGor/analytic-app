@@ -45,9 +45,15 @@ public final class AnalyticConsumer {
                         .stream()
                         .map(productId -> updateAnalyticProduct(dbMap, eventsMap, productId)).toList())
                 .flatMapMany(repository::saveAll)
-                .doOnComplete(() -> events.get(events.size() - 1).receiverOffset().acknowledge())
+                .doOnComplete(() -> commitMessage(events))
                 .doOnError(ex -> log.error(ex.getMessage()))
                 .then();
+    }
+
+    private void commitMessage(final List<ReceiverRecord<String, ProductViewEvent>> events) {
+        if (!events.isEmpty()) {
+            events.get(events.size() - 1).receiverOffset().acknowledge();
+        }
     }
 
     private Map<Integer, Long> getAllRecords(final List<ReceiverRecord<String, ProductViewEvent>> events) {

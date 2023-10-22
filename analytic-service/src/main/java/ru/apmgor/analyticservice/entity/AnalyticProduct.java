@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "product_views")
-public class AnalyticProduct implements Persistable<Integer> {
+public final class AnalyticProduct implements Persistable<Integer> {
     @Id
     private Integer productId;
     @With
